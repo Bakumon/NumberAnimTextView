@@ -1,6 +1,6 @@
 # NumberAnimTextView
 
-![NumberAnimTextView](http://7xscwt.com1.z0.glb.clouddn.com/NumberAnimTextView.gif)
+![NumberAnimTextView演示gif](http://7xscwt.com1.z0.glb.clouddn.com/NumberAnimTextView.gif)
 
 ## Character
 
