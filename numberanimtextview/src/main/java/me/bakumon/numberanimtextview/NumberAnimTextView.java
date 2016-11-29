@@ -1,4 +1,4 @@
-package io.github.bakumon.numberanimtextview.view;
+package me.bakumon.numberanimtextview;
 
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
@@ -86,12 +86,7 @@ public class NumberAnimTextView extends TextView {
         try {
             BigDecimal start = new BigDecimal(numberStart);
             BigDecimal end = new BigDecimal(numberEnd);
-            if (end.compareTo(start) >= 0) {
-                return true;
-            } else {
-                return false;
-            }
-
+            return end.compareTo(start) >= 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -123,7 +118,7 @@ public class NumberAnimTextView extends TextView {
         if (isInt) {
             pattern = "#,###";
         } else {
-            pattern = "#,###.00";
+            pattern = "#,##0.00";
         }
         DecimalFormat df = new DecimalFormat(pattern);
         return df.format(bd);

@@ -4,24 +4,32 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import io.github.bakumon.numberanimtextview.view.NumberAnimTextView;
+import me.bakumon.numberanimtextview.NumberAnimTextView;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private NumberAnimTextView mNumberAnimTextView;
+    private NumberAnimTextView mNumberAnimTextView1;
+    private NumberAnimTextView mNumberAnimTextView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mNumberAnimTextView = (NumberAnimTextView) findViewById(R.id.text);
+        mNumberAnimTextView1 = (NumberAnimTextView) findViewById(R.id.text1);
+        mNumberAnimTextView2 = (NumberAnimTextView) findViewById(R.id.text2);
     }
 
     public void start(View view) {
-        mNumberAnimTextView.setPrefixString("￥");
-        mNumberAnimTextView.setDuration(9000);
-        mNumberAnimTextView.setPostfixString("%");
-        mNumberAnimTextView.setNumberString("8888888");
+        mNumberAnimTextView.setPrefixString("¥");
+        mNumberAnimTextView.setNumberString("1111.75", "98765432.75");
+
+        mNumberAnimTextView1.setNumberString("1234567");
+
+        mNumberAnimTextView2.setPostfixString("%");
+        mNumberAnimTextView2.setNumberString("19.75", "99.75");
 
     }
 }
