@@ -13,3 +13,15 @@
 ```java
 mNumberAnimTextView.setNumberString("98765432.75");
 ```
+## Option
+
+```java
+// 设置前缀
+mNumberAnimTextView.setPrefixString("¥");
+// 设置后缀
+mNumberAnimTextView2.setPostfixString("%");
+// 设置动画时长
+mNumberAnimTextView.setDuration(2000);
+// 设置数字增加范围
+mNumberAnimTextView2.setNumberString("19.75", "99.75");
+```
