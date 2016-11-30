@@ -1,6 +1,6 @@
 # NumberAnimTextView
 
-![NumberAnimTextView演示gif](https://github.com/Bakumon/NumberAnimTextView/raw/master/gif/NumberAnimTextView.gif)
+![NumberAnimTextView演示gif](https://github.com/Bakumon/NumberAnimTextView/raw/master/gif/GIF.gif)
 
 ## Character
 
