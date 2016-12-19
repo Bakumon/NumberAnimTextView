@@ -21,9 +21,9 @@ mNumberAnimTextView.setNumberString("98765432.75");
 // 设置前缀
 mNumberAnimTextView.setPrefixString("¥");
 // 设置后缀
-mNumberAnimTextView2.setPostfixString("%");
+mNumberAnimTextView.setPostfixString("%");
 // 设置动画时长
 mNumberAnimTextView.setDuration(2000);
 // 设置数字增加范围
-mNumberAnimTextView2.setNumberString("19.75", "99.75");
+mNumberAnimTextView.setNumberString("19.75", "99.75");
 ```
