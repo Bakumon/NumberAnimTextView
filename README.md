@@ -15,6 +15,7 @@
 // 设置最终值，开始动画
 mNumberAnimTextView.setNumberString("98765432.75");
 ```
+
 ## Option
 
 ```java
