@@ -28,3 +28,7 @@ mNumberAnimTextView.setDuration(2000);
 // 设置数字增加范围
 mNumberAnimTextView.setNumberString("19.75", "99.75");
 ```
+
+## License
+
+[MIT](https://github.com/Bakumon/NumberAnimTextView/blob/master/LICENSE)
