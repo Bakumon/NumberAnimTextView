@@ -123,8 +123,9 @@ public class NumberAnimTextView extends TextView {
         DecimalFormat df = new DecimalFormat(pattern);
         return df.format(bd);
     }
-
-    class BigDecimalEvaluator implements TypeEvaluator {
+    // 不加 static 关键字，也不会引起内存泄露，因为这里也没有开启线程
+    // 加上 static 关键字，是因为该内部类不需要持有外部类的引用，习惯加上
+    static class BigDecimalEvaluator implements TypeEvaluator {
         @Override
         public Object evaluate(float fraction, Object startValue, Object endValue) {
             BigDecimal start = (BigDecimal) startValue;
