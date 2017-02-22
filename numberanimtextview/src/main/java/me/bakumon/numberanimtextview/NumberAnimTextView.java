@@ -25,6 +25,8 @@ public class NumberAnimTextView extends TextView {
     private String mPrefixString = ""; // 前缀
     private String mPostfixString = ""; //后缀
 
+    private boolean isEnableAnim = true; // 是否开启动画
+
     public NumberAnimTextView(Context context) {
         super(context);
     }
@@ -51,6 +53,10 @@ public class NumberAnimTextView extends TextView {
             // 数字不合法　直接调用　setText　设置最终值
             setText(mPrefixString + numberEnd + mPostfixString);
         }
+    }
+
+    public void setEnableAnim(boolean enableAnim) {
+        isEnableAnim = enableAnim;
     }
 
     public void setDuration(long mDuration) {
@@ -94,6 +100,10 @@ public class NumberAnimTextView extends TextView {
     }
 
     private void start() {
+        if (!isEnableAnim) { // 禁止动画
+            setText(mPrefixString + format(new BigDecimal(mNumEnd)) + mPostfixString);
+            return;
+        }
         ValueAnimator animator = ValueAnimator.ofObject(new BigDecimalEvaluator(), new BigDecimal(mNumStart), new BigDecimal(mNumEnd));
         animator.setDuration(mDuration);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -123,6 +133,7 @@ public class NumberAnimTextView extends TextView {
         DecimalFormat df = new DecimalFormat(pattern);
         return df.format(bd);
     }
+
     // 不加 static 关键字，也不会引起内存泄露，因为这里也没有开启线程
     // 加上 static 关键字，是因为该内部类不需要持有外部类的引用，习惯加上
     static class BigDecimalEvaluator implements TypeEvaluator {

@@ -27,6 +27,9 @@ mNumberAnimTextView.setPostfixString("%");
 mNumberAnimTextView.setDuration(2000);
 // 设置数字增加范围
 mNumberAnimTextView.setNumberString("19.75", "99.75");
+
+禁用动画
+mNumberAnimTextView1.setEnableAnim(false);
 ```
 
 ## License
