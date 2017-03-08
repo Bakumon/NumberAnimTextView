@@ -3,9 +3,9 @@ package me.bakumon.numberanimtextview;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
  * 数字增加动画的　TextView
  * Created by bakumon on 16-11-26.
  */
-public class NumberAnimTextView extends TextView {
+public class NumberAnimTextView extends AppCompatTextView {
 
     private String mNumStart = "0";  //
     private String mNumEnd; //
@@ -136,7 +136,7 @@ public class NumberAnimTextView extends TextView {
 
     // 不加 static 关键字，也不会引起内存泄露，因为这里也没有开启线程
     // 加上 static 关键字，是因为该内部类不需要持有外部类的引用，习惯加上
-    static class BigDecimalEvaluator implements TypeEvaluator {
+    private static class BigDecimalEvaluator implements TypeEvaluator {
         @Override
         public Object evaluate(float fraction, Object startValue, Object endValue) {
             BigDecimal start = (BigDecimal) startValue;
