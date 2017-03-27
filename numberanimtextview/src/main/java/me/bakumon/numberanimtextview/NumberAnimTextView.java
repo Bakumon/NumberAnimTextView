@@ -18,9 +18,9 @@ import java.text.DecimalFormat;
 public class NumberAnimTextView extends AppCompatTextView {
 
     private String mNumStart = "0";  //
-    private String mNumEnd; //
+    private String mNumEnd; // 结束值
 
-    private long mDuration = 2000; //
+    private long mDuration = 2000; // 动画总时间 默认 2000 毫秒
 
     private String mPrefixString = ""; // 前缀
     private String mPostfixString = ""; //后缀
@@ -81,22 +81,21 @@ public class NumberAnimTextView extends AppCompatTextView {
      * @return 合法性
      */
     private boolean checkNumString(String numberStart, String numberEnd) {
-        try {
-            new BigInteger(numberStart);
-            new BigInteger(numberEnd);
-            isInt = true;
-        } catch (Exception e) {
-            isInt = false;
-            e.printStackTrace();
+
+        String regexInteger = "-?\\d*";
+        isInt = numberEnd.matches(regexInteger) && numberStart.matches(regexInteger);
+        if (isInt) {
+            BigInteger start = new BigInteger(numberStart);
+            BigInteger end = new BigInteger(numberEnd);
+            return end.compareTo(start) >= 0;
         }
-        try {
+        String regexDecimal = "-?[1-9]\\d*.\\d*|-?0.\\d*[1-9]\\d*";
+        if (numberEnd.matches(regexDecimal) && numberStart.matches(regexDecimal)) {
             BigDecimal start = new BigDecimal(numberStart);
             BigDecimal end = new BigDecimal(numberEnd);
             return end.compareTo(start) >= 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     private void start() {
@@ -128,7 +127,7 @@ public class NumberAnimTextView extends AppCompatTextView {
         if (isInt) {
             pattern = "#,###";
         } else {
-            pattern = "#,##0.00";
+            pattern = "#,##0.000";
         }
         DecimalFormat df = new DecimalFormat(pattern);
         return df.format(bd);

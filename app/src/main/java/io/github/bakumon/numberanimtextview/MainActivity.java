@@ -24,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view) {
         mNumberAnimTextView.setPrefixString("¥");
-        mNumberAnimTextView.setNumberString("1111.75", "98765432.75");
+        mNumberAnimTextView.setNumberString("-99991111.754343", "9872.754343");
 
-        mNumberAnimTextView1.setEnableAnim(false);
+//        mNumberAnimTextView1.setEnableAnim(true);
         mNumberAnimTextView1.setNumberString("1234567");
 
         mNumberAnimTextView2.setPostfixString("%");
-        mNumberAnimTextView2.setNumberString("19.75", "99.75");
+        mNumberAnimTextView2.setNumberString("99.75");
 
     }
 }
