@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view) {
         mNumberAnimTextView.setPrefixString("¥");
-        mNumberAnimTextView.setNumberString("-99991111.754343", "9872.754343");
+        mNumberAnimTextView.setNumberString("99998.123456789");
 
 //        mNumberAnimTextView1.setEnableAnim(true);
         mNumberAnimTextView1.setNumberString("1234567");

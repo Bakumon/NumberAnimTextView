@@ -2,10 +2,11 @@ package me.bakumon.numberanimtextview;
 
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -15,16 +16,14 @@ import java.text.DecimalFormat;
  * 数字增加动画的　TextView
  * Created by bakumon on 16-11-26.
  */
-public class NumberAnimTextView extends AppCompatTextView {
+@SuppressLint("AppCompatCustomView")
+public class NumberAnimTextView extends TextView {
 
-    private String mNumStart = "0";  //
+    private String mNumStart = "0";  // 起始值 默认 0
     private String mNumEnd; // 结束值
-
     private long mDuration = 2000; // 动画总时间 默认 2000 毫秒
-
     private String mPrefixString = ""; // 前缀
-    private String mPostfixString = ""; //后缀
-
+    private String mPostfixString = ""; // 后缀
     private boolean isEnableAnim = true; // 是否开启动画
 
     public NumberAnimTextView(Context context) {
@@ -90,10 +89,17 @@ public class NumberAnimTextView extends AppCompatTextView {
             return end.compareTo(start) >= 0;
         }
         String regexDecimal = "-?[1-9]\\d*.\\d*|-?0.\\d*[1-9]\\d*";
+        if ("0".equals(numberStart)) {
+            if (numberEnd.matches(regexDecimal)) {
+                BigDecimal start = new BigDecimal(numberStart);
+                BigDecimal end = new BigDecimal(numberEnd);
+                return end.compareTo(start) > 0;
+            }
+        }
         if (numberEnd.matches(regexDecimal) && numberStart.matches(regexDecimal)) {
             BigDecimal start = new BigDecimal(numberStart);
             BigDecimal end = new BigDecimal(numberEnd);
-            return end.compareTo(start) >= 0;
+            return end.compareTo(start) > 0;
         }
         return false;
     }
@@ -123,13 +129,24 @@ public class NumberAnimTextView extends AppCompatTextView {
      * @return 格式化后的 String
      */
     private String format(BigDecimal bd) {
-        String pattern;
+        StringBuilder pattern = new StringBuilder();
         if (isInt) {
-            pattern = "#,###";
+            pattern.append("#,###");
         } else {
-            pattern = "#,##0.000";
+            int length = 0;
+            String decimals = mNumEnd.split("\\.")[1];
+            if (decimals != null) {
+                length = decimals.length();
+            }
+            pattern.append("#,##0");
+            if (length > 0) {
+                pattern.append(".");
+                for (int i = 0; i < length; i++) {
+                    pattern.append("0");
+                }
+            }
         }
-        DecimalFormat df = new DecimalFormat(pattern);
+        DecimalFormat df = new DecimalFormat(pattern.toString());
         return df.format(bd);
     }
 
