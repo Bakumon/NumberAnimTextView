@@ -2,7 +2,7 @@
 
 ![NumberAnimTextView演示gif](https://github.com/Bakumon/NumberAnimTextView/raw/master/gif/GIF.gif)
 
-## Character
+## Features
 
 1. 添加前缀、后缀
 2. 支持任意大小的整数或小数
