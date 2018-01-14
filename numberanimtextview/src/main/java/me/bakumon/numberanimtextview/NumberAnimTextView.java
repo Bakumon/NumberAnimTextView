@@ -14,17 +14,42 @@ import java.text.DecimalFormat;
 
 /**
  * 数字增加动画的　TextView
- * Created by bakumon on 16-11-26.
+ *
+ * @author bakumon
+ * @date 16-11-26
  */
 @SuppressLint("AppCompatCustomView")
 public class NumberAnimTextView extends TextView {
 
-    private String mNumStart = "0";  // 起始值 默认 0
-    private String mNumEnd; // 结束值
-    private long mDuration = 2000; // 动画总时间 默认 2000 毫秒
-    private String mPrefixString = ""; // 前缀
-    private String mPostfixString = ""; // 后缀
-    private boolean isEnableAnim = true; // 是否开启动画
+    /**
+     * 起始值 默认 0
+     */
+    private String mNumStart = "0";
+    /**
+     * 结束值
+     */
+    private String mNumEnd;
+    /**
+     * 动画总时间 默认 2000 毫秒
+     */
+    private long mDuration = 2000;
+    /**
+     * 前缀
+     */
+    private String mPrefixString = "";
+    /**
+     * 后缀
+     */
+    private String mPostfixString = "";
+    /**
+     * 是否开启动画
+     */
+    private boolean isEnableAnim = true;
+    /**
+     * 是否是整数
+     */
+    private boolean isInt;
+    private ValueAnimator animator;
 
     public NumberAnimTextView(Context context) {
         super(context);
@@ -70,8 +95,6 @@ public class NumberAnimTextView extends TextView {
         this.mPostfixString = mPostfixString;
     }
 
-    private boolean isInt; // 是否是整数
-
     /**
      * 校验数字的合法性
      *
@@ -105,11 +128,12 @@ public class NumberAnimTextView extends TextView {
     }
 
     private void start() {
-        if (!isEnableAnim) { // 禁止动画
+        if (!isEnableAnim) {
+            // 禁止动画
             setText(mPrefixString + format(new BigDecimal(mNumEnd)) + mPostfixString);
             return;
         }
-        ValueAnimator animator = ValueAnimator.ofObject(new BigDecimalEvaluator(), new BigDecimal(mNumStart), new BigDecimal(mNumEnd));
+        animator = ValueAnimator.ofObject(new BigDecimalEvaluator(), new BigDecimal(mNumStart), new BigDecimal(mNumEnd));
         animator.setDuration(mDuration);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -120,6 +144,14 @@ public class NumberAnimTextView extends TextView {
             }
         });
         animator.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (animator != null) {
+            animator.cancel();
+        }
     }
 
     /**
@@ -150,8 +182,6 @@ public class NumberAnimTextView extends TextView {
         return df.format(bd);
     }
 
-    // 不加 static 关键字，也不会引起内存泄露，因为这里也没有开启线程
-    // 加上 static 关键字，是因为该内部类不需要持有外部类的引用，习惯加上
     private static class BigDecimalEvaluator implements TypeEvaluator {
         @Override
         public Object evaluate(float fraction, Object startValue, Object endValue) {
