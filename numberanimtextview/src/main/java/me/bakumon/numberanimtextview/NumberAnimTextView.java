@@ -1,5 +1,7 @@
 package me.bakumon.numberanimtextview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -9,7 +11,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 /**
@@ -44,7 +45,7 @@ public class NumberAnimTextView extends TextView {
     /**
      * 是否开启动画
      */
-    private boolean isEnableAnim = true;
+    private boolean mIsEnableAnim = true;
     /**
      * 是否是整数
      */
@@ -80,7 +81,7 @@ public class NumberAnimTextView extends TextView {
     }
 
     public void setEnableAnim(boolean enableAnim) {
-        isEnableAnim = enableAnim;
+        mIsEnableAnim = enableAnim;
     }
 
     public void setDuration(long mDuration) {
@@ -107,28 +108,22 @@ public class NumberAnimTextView extends TextView {
         String regexInteger = "-?\\d*";
         isInt = numberEnd.matches(regexInteger) && numberStart.matches(regexInteger);
         if (isInt) {
-            BigInteger start = new BigInteger(numberStart);
-            BigInteger end = new BigInteger(numberEnd);
-            return end.compareTo(start) >= 0;
+            return true;
         }
         String regexDecimal = "-?[1-9]\\d*.\\d*|-?0.\\d*[1-9]\\d*";
         if ("0".equals(numberStart)) {
             if (numberEnd.matches(regexDecimal)) {
-                BigDecimal start = new BigDecimal(numberStart);
-                BigDecimal end = new BigDecimal(numberEnd);
-                return end.compareTo(start) > 0;
+                return true;
             }
         }
         if (numberEnd.matches(regexDecimal) && numberStart.matches(regexDecimal)) {
-            BigDecimal start = new BigDecimal(numberStart);
-            BigDecimal end = new BigDecimal(numberEnd);
-            return end.compareTo(start) > 0;
+            return true;
         }
         return false;
     }
 
     private void start() {
-        if (!isEnableAnim) {
+        if (!mIsEnableAnim) {
             // 禁止动画
             setText(mPrefixString + format(new BigDecimal(mNumEnd)) + mPostfixString);
             return;
@@ -141,6 +136,12 @@ public class NumberAnimTextView extends TextView {
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 BigDecimal value = (BigDecimal) valueAnimator.getAnimatedValue();
                 setText(mPrefixString + format(value) + mPostfixString);
+            }
+        });
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                setText(mPrefixString + mNumEnd + mPostfixString);
             }
         });
         animator.start();
@@ -166,9 +167,15 @@ public class NumberAnimTextView extends TextView {
             pattern.append("#,###");
         } else {
             int length = 0;
-            String decimals = mNumEnd.split("\\.")[1];
-            if (decimals != null) {
-                length = decimals.length();
+            String[] s1 = mNumStart.split("\\.");
+            String[] s2 = mNumEnd.split("\\.");
+            String[] s = s1.length > s2.length ? s1 : s2;
+            if (s.length > 1) {
+                // 小数部分
+                String decimals = s[1];
+                if (decimals != null) {
+                    length = decimals.length();
+                }
             }
             pattern.append("#,##0");
             if (length > 0) {
@@ -188,7 +195,7 @@ public class NumberAnimTextView extends TextView {
             BigDecimal start = (BigDecimal) startValue;
             BigDecimal end = (BigDecimal) endValue;
             BigDecimal result = end.subtract(start);
-            return result.multiply(new BigDecimal("" + fraction)).add(start);
+            return result.multiply(new BigDecimal(fraction)).add(start);
         }
     }
 }

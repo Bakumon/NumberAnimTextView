@@ -27,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
         mNumberAnimTextView.setNumberString("99998.123456789");
 
 //        mNumberAnimTextView1.setEnableAnim(true);
-        mNumberAnimTextView1.setNumberString("1234567");
+        mNumberAnimTextView1.setNumberString("123", "1234567");
 
+        mNumberAnimTextView2.setDuration(3000);
         mNumberAnimTextView2.setPostfixString("%");
-        mNumberAnimTextView2.setNumberString("99.75");
+        mNumberAnimTextView2.setNumberString("99.75", "10");
 
     }
 }
